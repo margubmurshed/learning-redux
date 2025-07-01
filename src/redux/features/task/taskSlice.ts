@@ -2,10 +2,10 @@ import type { ITask } from "@/types";
 import { createSlice } from "@reduxjs/toolkit";
 
 interface InitialState {
-    task: ITask[];
+    tasks: ITask[];
 }
 const initialState: InitialState = {
-    task: [
+    tasks: [
         {
             id: "1",
             title: "Make ecommerce website",
