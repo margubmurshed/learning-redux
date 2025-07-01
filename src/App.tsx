@@ -1,11 +1,13 @@
 import { Outlet } from "react-router";
-import { ModeToggle } from "./components/mode-toggle";
+import Navbar from "./components/layout/Navbar";
 
 const App = () => {
   return (
-    <div className="p-5">
-      <ModeToggle />
-      <Outlet />
+    <div>
+      <Navbar />
+      <div className="p-5">
+        <Outlet />
+      </div>
     </div>
   );
 };
