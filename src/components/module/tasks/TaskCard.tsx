@@ -3,9 +3,10 @@ import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import type { ITask } from "@/types";
 import { cn } from "@/lib/utils";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { deleteTask, toggleCompletedState } from "@/redux/features/task/taskSlice";
 import { Pencil, Trash2 } from "lucide-react";
+import { selectUsers } from "@/redux/features/user/userSlice";
 
 interface TaskCardProps {
     task: ITask,
@@ -13,6 +14,8 @@ interface TaskCardProps {
 }
 
 const TaskCard = ({ task, handleEditClick }: TaskCardProps) => {
+    const users = useAppSelector(selectUsers)
+    const user = users.find(user => user.id === task.assignTo);
     const dispatch = useAppDispatch();
     return (
         <Card className="w-full h-fit shadow-md border border-gray-200">
@@ -23,6 +26,7 @@ const TaskCard = ({ task, handleEditClick }: TaskCardProps) => {
                         <h1 className={cn({ "line-through": task.isCompleted })}>{task.title}</h1>
                     </CardTitle>
                     <p className="text-sm text-muted-foreground">{task.description}</p>
+                    {user && <p className="text-sm text-muted-foreground">Assigned to : {user.name}</p>}
                 </div>
                 <div className="flex items-center gap-3">
                     <Badge

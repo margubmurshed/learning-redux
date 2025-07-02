@@ -9,7 +9,8 @@ const Navbar = () => {
                     <h1 className='font-bold text-xl'>Task Manager</h1>
                     <ul className='flex items-center gap-3'>
                         <li><Link to="/">Home</Link></li>
-                        <li><Link to="/">Tasks</Link></li>
+                        <li><Link to="/tasks">Tasks</Link></li>
+                        <li><Link to="/users">Users</Link></li>
                     </ul>
                 </div>
                 <div>
