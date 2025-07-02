@@ -15,7 +15,7 @@ interface TaskCardProps {
 const TaskCard = ({ task, handleEditClick }: TaskCardProps) => {
     const dispatch = useAppDispatch();
     return (
-        <Card className="w-full max-w-md shadow-md border border-gray-200">
+        <Card className="w-full h-fit shadow-md border border-gray-200">
             <CardHeader className="flex flex-row justify-between items-start gap-4">
                 <div>
                     <CardTitle className="text-lg font-semibold flex items-center gap-2">
