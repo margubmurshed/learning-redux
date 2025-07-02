@@ -5,9 +5,14 @@ import type { ITask } from "@/types";
 import { cn } from "@/lib/utils";
 import { useAppDispatch } from "@/redux/hooks";
 import { deleteTask, toggleCompletedState } from "@/redux/features/task/taskSlice";
-import { Trash2 } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 
-const TaskCard = ({ task }: { task: ITask }) => {
+interface TaskCardProps {
+    task: ITask,
+    handleEditClick: (task: ITask) => void;
+}
+
+const TaskCard = ({ task, handleEditClick }: TaskCardProps) => {
     const dispatch = useAppDispatch();
     return (
         <Card className="w-full max-w-md shadow-md border border-gray-200">
@@ -30,6 +35,7 @@ const TaskCard = ({ task }: { task: ITask }) => {
                         {task.priority}
                     </Badge>
                     <Trash2 size="20px" onClick={() => dispatch(deleteTask(task.id))} />
+                    <Pencil size="20px" onClick={() => handleEditClick(task)} />
                 </div>
             </CardHeader>
 

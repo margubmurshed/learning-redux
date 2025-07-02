@@ -8,7 +8,6 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
 } from "@/components/ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -16,30 +15,52 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
-import { addTask } from "@/redux/features/task/taskSlice";
+import {  updateTask } from "@/redux/features/task/taskSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import type { ITask } from "@/types";
 import { format } from "date-fns";
-import { CalendarIcon, PlusCircle } from "lucide-react";
-import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form"
+import { CalendarIcon } from "lucide-react";
+import { useForm } from "react-hook-form"
 
-export function AddTaskModal() {
-    const form = useForm();
+interface UpdateTaskModalProps {
+    openEditModal: boolean,
+    setOpenEditModal: (open: boolean) => void;
+    task: ITask
+}
+
+interface EditTaskForm {
+    title: string;
+    description: string;
+    dueDate: Date;
+    isCompleted: boolean;
+    priority: "High" | "Medium" | "Low";
+}
+
+export function UpdateTaskModal({openEditModal, setOpenEditModal, task}:UpdateTaskModalProps) {
+    console.log(task)
+    const form = useForm<EditTaskForm>({
+        defaultValues: {
+            ...task,
+            dueDate: new Date(task.dueDate)
+        }
+    });
     const dispatch = useAppDispatch();
 
-    const onSubmit : SubmitHandler<FieldValues> = (data) => {
-        data.dueDate = new Date(data.dueDate).toISOString()
-        dispatch(addTask(data as ITask));
+    const onSubmit = (data: EditTaskForm) => {
+        const updatedData = {
+            ...data,
+            dueDate: new Date(data.dueDate).toISOString(),
+            id: task.id
+        }
+        dispatch(updateTask(updatedData));
+        setOpenEditModal(false);
     }
     return (
-        <Dialog>
-            <DialogTrigger asChild>
-                <Button>Add Task <PlusCircle/></Button>
-            </DialogTrigger>
+        <Dialog open={openEditModal} onOpenChange={setOpenEditModal}>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogDescription className="sr-only">Fill up this form</DialogDescription>
-                    <DialogTitle>Add Task</DialogTitle>
+                    <DialogDescription className="sr-only">Edit this form</DialogDescription>
+                    <DialogTitle>Edit Task</DialogTitle>
                 </DialogHeader>
 
                 <Form {...form}>
@@ -131,7 +152,7 @@ export function AddTaskModal() {
                             <DialogClose asChild>
                                 <Button variant="outline">Cancel</Button>
                             </DialogClose>
-                            <Button type="submit">Add Task</Button>
+                            <Button type="submit">Update Task</Button>
                         </DialogFooter>
                     </form>
                 </Form>

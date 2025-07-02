@@ -6,3 +6,5 @@ export interface ITask {
     isCompleted: boolean;
     priority: "High" | "Medium" | "Low";
 }
+
+export type DraftTask = Pick<ITask, "title" | "description" | "dueDate" | "priority">;
