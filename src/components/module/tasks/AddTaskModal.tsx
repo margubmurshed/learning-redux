@@ -20,7 +20,7 @@ import { addTask } from "@/redux/features/task/taskSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import type { ITask } from "@/types";
 import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, PlusCircle } from "lucide-react";
 import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form"
 
 export function AddTaskModal() {
@@ -34,7 +34,7 @@ export function AddTaskModal() {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button>Add Task</Button>
+                <Button>Add Task <PlusCircle/></Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>

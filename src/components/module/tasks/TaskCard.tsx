@@ -3,28 +3,34 @@ import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import type { ITask } from "@/types";
 import { cn } from "@/lib/utils";
+import { useAppDispatch } from "@/redux/hooks";
+import { deleteTask, toggleCompletedState } from "@/redux/features/task/taskSlice";
+import { Trash2 } from "lucide-react";
 
 const TaskCard = ({ task }: { task: ITask }) => {
+    const dispatch = useAppDispatch();
     return (
         <Card className="w-full max-w-md shadow-md border border-gray-200">
             <CardHeader className="flex flex-row justify-between items-start gap-4">
                 <div>
                     <CardTitle className="text-lg font-semibold flex items-center gap-2">
-                        <Checkbox className="mr-2" />
-                        {task.title}
+                        <Checkbox className="mr-2" onClick={() => dispatch(toggleCompletedState(task.id))} checked={task.isCompleted} />
+                        <h1 className={cn({ "line-through": task.isCompleted })}>{task.title}</h1>
                     </CardTitle>
                     <p className="text-sm text-muted-foreground">{task.description}</p>
                 </div>
-                <Badge
-                    //   variant={task.priority === "High" ? "destructive" : "secondary"}
-                    className={cn("text-xs", {
-                        "bg-red-500": task.priority === "High",
-                        "bg-yellow-500": task.priority === "Medium",
-                        "bg-gray-500": task.priority === "Low",
-                    })}
-                >
-                    {task.priority}
-                </Badge>
+                <div className="flex items-center gap-3">
+                    <Badge
+                        className={cn("text-xs", {
+                            "bg-red-500": task.priority === "High",
+                            "bg-yellow-500": task.priority === "Medium",
+                            "bg-gray-500": task.priority === "Low",
+                        })}
+                    >
+                        {task.priority}
+                    </Badge>
+                    <Trash2 size="20px" onClick={() => dispatch(deleteTask(task.id))} />
+                </div>
             </CardHeader>
 
             <CardContent className="text-sm text-muted-foreground flex justify-between">
